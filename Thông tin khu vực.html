@@ -1,0 +1,2288 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Muaban.net - Trang tính năng Thông tin khu vực</title>
+  <style>
+    :root {
+      --primary: #f5a623;
+      --primary-dark: #d98900;
+      --accent: #0f766e;
+      --accent-soft: #e6fffb;
+      --blue: #2563eb;
+      --blue-soft: #eff6ff;
+      --green: #16a34a;
+      --green-soft: #ecfdf5;
+      --red: #dc2626;
+      --red-soft: #fef2f2;
+      --purple: #7c3aed;
+      --purple-soft: #f5f3ff;
+      --text: #172033;
+      --muted: #687386;
+      --line: #e7ebf1;
+      --bg: #f7f8fb;
+      --card: #ffffff;
+      --shadow: 0 18px 45px rgba(23, 32, 51, 0.09);
+      --radius: 22px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 14px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .logo-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--primary), #ffce54);
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-weight: 900;
+      box-shadow: 0 12px 30px rgba(245, 166, 35, 0.32);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      color: var(--muted);
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    .nav-links a {
+      padding: 8px 10px;
+      border-radius: 999px;
+    }
+
+    .nav-links a:hover {
+      background: #f2f4f8;
+      color: var(--text);
+    }
+
+    .container {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 22px;
+    }
+
+    .hero {
+      position: relative;
+      padding: 76px 0 54px;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(8px);
+      opacity: 0.65;
+      pointer-events: none;
+    }
+
+    .hero::before {
+      width: 380px;
+      height: 380px;
+      background: radial-gradient(circle, rgba(245,166,35,.28), transparent 65%);
+      right: -90px;
+      top: -80px;
+    }
+
+    .hero::after {
+      width: 320px;
+      height: 320px;
+      background: radial-gradient(circle, rgba(15,118,110,.16), transparent 65%);
+      left: -120px;
+      bottom: -120px;
+    }
+
+    .hero-grid {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(380px, .95fr);
+      align-items: center;
+      gap: 46px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 13px;
+      border: 1px solid rgba(245, 166, 35, 0.35);
+      background: rgba(255, 248, 232, 0.9);
+      color: #925d00;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 13px;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(38px, 5vw, 64px);
+      line-height: 1.03;
+      letter-spacing: -0.055em;
+    }
+
+    .hero p.lead {
+      color: var(--muted);
+      font-size: 18px;
+      max-width: 670px;
+      margin: 22px 0 0;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 30px;
+    }
+
+    .btn {
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 13px 18px;
+      border-radius: 999px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: .18s ease;
+      font-size: 14px;
+    }
+
+    .btn-primary {
+      background: var(--text);
+      color: #fff;
+      box-shadow: 0 14px 28px rgba(23, 32, 51, 0.18);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 36px rgba(23, 32, 51, 0.22);
+    }
+
+    .btn-secondary {
+      background: #fff;
+      color: var(--text);
+      border: 1px solid var(--line);
+    }
+
+    .hero-points {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 30px;
+    }
+
+    .point {
+      background: rgba(255,255,255,.76);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 14px;
+    }
+
+    .point strong {
+      display: block;
+      font-size: 22px;
+      letter-spacing: -0.04em;
+      margin-bottom: 2px;
+    }
+
+    .point span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .phone-wrap {
+      position: relative;
+    }
+
+    .phone {
+      background: #121827;
+      border-radius: 38px;
+      padding: 13px;
+      box-shadow: var(--shadow), 0 30px 80px rgba(18,24,39,.22);
+      max-width: 430px;
+      margin-left: auto;
+      transform: rotate(1.5deg);
+    }
+
+    .phone-screen {
+      background: #fff;
+      border-radius: 28px;
+      overflow: hidden;
+      min-height: 650px;
+    }
+
+    .mini-hero {
+      padding: 20px;
+      background: linear-gradient(135deg, #fff6df, #ffffff 58%, #ecfeff);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .mini-tag {
+      display: inline-flex;
+      padding: 5px 9px;
+      background: #fff;
+      border: 1px solid rgba(245,166,35,.32);
+      border-radius: 999px;
+      font-size: 11px;
+      color: #925d00;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .mini-hero h2 {
+      margin: 0 0 7px;
+      font-size: 24px;
+      line-height: 1.12;
+      letter-spacing: -0.04em;
+    }
+
+    .mini-hero p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .mini-cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      padding: 14px;
+      background: #fbfcfe;
+    }
+
+    .mini-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 12px;
+    }
+
+    .mini-card .label {
+      font-size: 11px;
+      color: var(--muted);
+      display: block;
+    }
+
+    .mini-card .value {
+      font-size: 17px;
+      font-weight: 900;
+      display: block;
+      margin-top: 2px;
+    }
+
+    .mini-section {
+      padding: 16px;
+      border-top: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .mini-section h3 {
+      margin: 0 0 12px;
+      font-size: 15px;
+      letter-spacing: -0.02em;
+    }
+
+    .bars {
+      display: grid;
+      gap: 10px;
+    }
+
+    .bar-row {
+      display: grid;
+      grid-template-columns: 88px 1fr 36px;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .bar {
+      height: 9px;
+      background: #edf1f6;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .bar i {
+      display: block;
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--primary), #ffd36a);
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+
+    .tag {
+      display: inline-flex;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: #f3f6fb;
+      color: #3b4657;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    section {
+      padding: 54px 0;
+    }
+
+    .section-head {
+      max-width: 760px;
+      margin-bottom: 26px;
+    }
+
+    .section-kicker {
+      color: var(--primary-dark);
+      font-weight: 900;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: 8px;
+    }
+
+    h2.section-title {
+      margin: 0;
+      font-size: clamp(28px, 3vw, 42px);
+      line-height: 1.1;
+      letter-spacing: -0.045em;
+    }
+
+    .section-desc {
+      color: var(--muted);
+      font-size: 16px;
+      margin: 12px 0 0;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 22px;
+      box-shadow: 0 12px 32px rgba(23, 32, 51, 0.055);
+    }
+
+    .card-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 15px;
+      display: grid;
+      place-items: center;
+      font-size: 20px;
+      margin-bottom: 14px;
+      background: var(--blue-soft);
+    }
+
+    .card h3 {
+      margin: 0 0 8px;
+      font-size: 20px;
+      letter-spacing: -0.025em;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .data-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 22px;
+      align-items: start;
+    }
+
+    .table-card {
+      overflow: hidden;
+      padding: 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+      font-size: 14px;
+    }
+
+    th {
+      background: #fbfcfe;
+      color: #485365;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    .note {
+      margin-top: 12px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: #fff8e8;
+      border: 1px solid rgba(245,166,35,.25);
+      color: #7a5108;
+      font-size: 13px;
+    }
+
+    .feature-map {
+      position: relative;
+      min-height: 420px;
+      border-radius: 26px;
+      overflow: hidden;
+      background:
+        linear-gradient(90deg, rgba(255,255,255,.55) 1px, transparent 1px),
+        linear-gradient(rgba(255,255,255,.55) 1px, transparent 1px),
+        linear-gradient(135deg, #dff7f2, #fff6dc 48%, #eaf0ff);
+      background-size: 38px 38px, 38px 38px, cover;
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .map-pin {
+      position: absolute;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 12px;
+      background: rgba(255,255,255,.92);
+      border: 1px solid rgba(255,255,255,.9);
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 800;
+      box-shadow: 0 10px 30px rgba(23, 32, 51, 0.11);
+    }
+
+    .pin-main {
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      background: var(--text);
+      color: #fff;
+    }
+
+    .p1 { left: 13%; top: 18%; }
+    .p2 { right: 13%; top: 16%; }
+    .p3 { left: 12%; bottom: 23%; }
+    .p4 { right: 10%; bottom: 24%; }
+    .p5 { left: 40%; top: 25%; }
+
+    .legend {
+      position: absolute;
+      left: 18px;
+      bottom: 18px;
+      right: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .legend span {
+      background: rgba(255,255,255,.86);
+      border: 1px solid rgba(255,255,255,.95);
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      color: #4b5563;
+      font-weight: 700;
+    }
+
+    .journey {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+      counter-reset: step;
+    }
+
+    .step {
+      position: relative;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 18px;
+      min-height: 190px;
+      box-shadow: 0 8px 24px rgba(23, 32, 51, 0.04);
+    }
+
+    .step::before {
+      counter-increment: step;
+      content: counter(step);
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      background: var(--text);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      margin-bottom: 14px;
+    }
+
+    .step h3 {
+      margin: 0 0 8px;
+      font-size: 16px;
+    }
+
+    .step p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .survey-preview {
+      display: grid;
+      grid-template-columns: .9fr 1.1fr;
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .survey-box {
+      background: #fff;
+      border-radius: 28px;
+      border: 1px solid var(--line);
+      padding: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .survey-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .survey-title h3 {
+      margin: 0;
+      font-size: 23px;
+      letter-spacing: -0.04em;
+    }
+
+    .voucher {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 12px;
+      border-radius: 999px;
+      background: var(--green-soft);
+      color: #166534;
+      font-weight: 900;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .field {
+      margin-bottom: 16px;
+    }
+
+    .field label {
+      display: block;
+      font-weight: 800;
+      margin-bottom: 8px;
+      font-size: 13px;
+      color: #3e4757;
+    }
+
+    .fake-input, .fake-textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px 14px;
+      color: var(--muted);
+      background: #fbfcfe;
+      font-size: 14px;
+    }
+
+    .fake-textarea {
+      height: 78px;
+    }
+
+    .ratings {
+      display: grid;
+      gap: 12px;
+    }
+
+    .rating-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .rating-line:last-child {
+      border-bottom: none;
+    }
+
+    .stars {
+      color: var(--primary);
+      letter-spacing: 1px;
+      white-space: nowrap;
+    }
+
+    .campaign-card {
+      background: linear-gradient(135deg, #121827, #23304b);
+      color: #fff;
+      border-radius: 30px;
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+      min-height: 100%;
+    }
+
+    .campaign-card::after {
+      content: "";
+      position: absolute;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(245,166,35,.35), transparent 65%);
+      right: -120px;
+      bottom: -140px;
+    }
+
+    .campaign-card h3 {
+      margin: 0 0 12px;
+      font-size: 32px;
+      letter-spacing: -0.05em;
+      line-height: 1.05;
+      max-width: 520px;
+    }
+
+    .campaign-card p {
+      color: rgba(255,255,255,.73);
+      margin: 0 0 18px;
+      max-width: 560px;
+    }
+
+    .campaign-list {
+      position: relative;
+      display: grid;
+      gap: 11px;
+      margin-top: 20px;
+    }
+
+    .campaign-list div {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 12px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.10);
+      color: rgba(255,255,255,.88);
+      font-size: 14px;
+    }
+
+    .pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .pill-list span {
+      display: inline-flex;
+      padding: 8px 11px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.11);
+      border: 1px solid rgba(255,255,255,.12);
+      color: rgba(255,255,255,.86);
+      font-weight: 800;
+      font-size: 12px;
+    }
+
+    .insight-panel {
+      display: grid;
+      grid-template-columns: 1fr .92fr;
+      gap: 22px;
+      align-items: start;
+    }
+
+    .insight {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 12px 32px rgba(23, 32, 51, 0.055);
+    }
+
+    .insight h3 {
+      margin: 0 0 12px;
+      font-size: 24px;
+      letter-spacing: -0.04em;
+    }
+
+    .insight p {
+      color: var(--muted);
+      margin: 0 0 16px;
+    }
+
+    .insight-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .insight-item {
+      display: grid;
+      grid-template-columns: 38px 1fr;
+      gap: 12px;
+      align-items: start;
+      padding: 13px;
+      border-radius: 16px;
+      background: #fbfcfe;
+      border: 1px solid var(--line);
+    }
+
+    .check {
+      width: 38px;
+      height: 38px;
+      border-radius: 13px;
+      display: grid;
+      place-items: center;
+      background: var(--green-soft);
+      color: var(--green);
+      font-weight: 900;
+    }
+
+    .insight-item strong {
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .insight-item span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .score-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 26px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .score-big {
+      display: grid;
+      place-items: center;
+      width: 170px;
+      height: 170px;
+      margin: 4px auto 18px;
+      border-radius: 50%;
+      background: conic-gradient(var(--primary) 0 82%, #edf1f6 82% 100%);
+      position: relative;
+    }
+
+    .score-big::after {
+      content: "";
+      position: absolute;
+      inset: 14px;
+      background: #fff;
+      border-radius: 50%;
+      box-shadow: inset 0 0 0 1px var(--line);
+    }
+
+    .score-big span {
+      position: relative;
+      z-index: 2;
+      font-size: 36px;
+      font-weight: 950;
+      letter-spacing: -0.05em;
+    }
+
+    .score-caption {
+      text-align: center;
+      color: var(--muted);
+      margin-bottom: 18px;
+      font-size: 14px;
+    }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .kpi {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 20px;
+      box-shadow: 0 8px 24px rgba(23, 32, 51, 0.045);
+    }
+
+    .kpi b {
+      display: block;
+      font-size: 28px;
+      letter-spacing: -0.055em;
+      margin-bottom: 4px;
+    }
+
+    .kpi span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .roadmap {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .phase {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 22px;
+      box-shadow: 0 12px 32px rgba(23, 32, 51, 0.045);
+    }
+
+    .phase-label {
+      display: inline-flex;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: #f3f6fb;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 900;
+      margin-bottom: 12px;
+    }
+
+    .phase h3 {
+      margin: 0 0 12px;
+      font-size: 20px;
+    }
+
+    .phase ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .phase li {
+      margin: 7px 0;
+    }
+
+    .footer-cta {
+      padding: 58px 0 76px;
+    }
+
+    .cta-box {
+      background: linear-gradient(135deg, #fff5dc, #ffffff 48%, #e6fffb);
+      border: 1px solid var(--line);
+      border-radius: 32px;
+      padding: 34px;
+      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .cta-box h2 {
+      margin: 0 0 8px;
+      letter-spacing: -0.045em;
+      font-size: 34px;
+      line-height: 1.1;
+    }
+
+    .cta-box p {
+      margin: 0;
+      color: var(--muted);
+      max-width: 700px;
+    }
+
+    .small-muted {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+
+    .sample-page {
+      background: #ffffff;
+      border: 1px solid var(--line);
+      border-radius: 34px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .sample-top {
+      background: linear-gradient(135deg, #172033 0%, #26324a 48%, #0f766e 100%);
+      color: #fff;
+      padding: 34px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(280px, .75fr);
+      gap: 24px;
+      align-items: end;
+    }
+
+    .sample-top .eyebrow-mini {
+      display: inline-flex;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.18);
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 14px;
+    }
+
+    .sample-top h2 {
+      margin: 0;
+      font-size: clamp(30px, 4vw, 48px);
+      letter-spacing: -0.05em;
+      line-height: 1.05;
+    }
+
+    .sample-top p {
+      color: rgba(255,255,255,.78);
+      margin: 16px 0 0;
+      max-width: 720px;
+    }
+
+    .sample-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .sample-badges span {
+      padding: 9px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.16);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .sample-score {
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: 26px;
+      padding: 22px;
+      backdrop-filter: blur(10px);
+    }
+
+    .sample-score strong {
+      display: block;
+      font-size: 54px;
+      line-height: 1;
+      letter-spacing: -0.05em;
+    }
+
+    .sample-score span {
+      color: rgba(255,255,255,.78);
+      font-size: 14px;
+    }
+
+    .sample-body {
+      padding: 28px;
+      display: grid;
+      gap: 22px;
+    }
+
+    .sample-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .sample-stat {
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 18px;
+      background: #fbfcff;
+    }
+
+    .sample-stat span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+
+    .sample-stat b {
+      display: block;
+      font-size: 22px;
+      letter-spacing: -0.03em;
+    }
+
+    .sample-section-title {
+      margin: 0 0 12px;
+      font-size: 22px;
+      letter-spacing: -0.035em;
+    }
+
+    .sample-copy {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .sample-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .sample-card {
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 22px;
+      background: #fff;
+    }
+
+    .utility-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .utility-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 12px;
+      border-radius: 16px;
+      background: #f8fafc;
+      border: 1px solid #eef2f7;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .fit-row {
+      display: grid;
+      grid-template-columns: 150px 1fr 64px;
+      gap: 12px;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--line);
+      font-size: 14px;
+    }
+
+    .fit-row:last-child { border-bottom: none; }
+    .fit-row span { color: var(--muted); }
+    .fit-row b { text-align: right; color: var(--accent); }
+
+    .sample-review {
+      background: linear-gradient(135deg, var(--accent-soft), #fff);
+      border: 1px solid #bfeee8;
+      border-radius: 26px;
+      padding: 24px;
+    }
+
+    .review-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .review-tile {
+      background: rgba(255,255,255,.8);
+      border: 1px solid rgba(15,118,110,.14);
+      border-radius: 18px;
+      padding: 14px;
+    }
+
+    .review-tile span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 6px;
+    }
+
+    .review-tile b {
+      font-size: 20px;
+    }
+
+
+
+    .sample-live-form {
+      border: 1px solid rgba(245,166,35,.35);
+      border-radius: 28px;
+      padding: 24px;
+      background: linear-gradient(135deg, #fffaf0 0%, #ffffff 58%, #ecfdf5 100%);
+      box-shadow: 0 14px 32px rgba(245, 166, 35, 0.10);
+      scroll-margin-top: 92px;
+    }
+
+    .sample-form-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .sample-form-head h3 {
+      margin: 0 0 6px;
+      font-size: 24px;
+      letter-spacing: -0.04em;
+    }
+
+    .sample-form-head p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .sample-voucher-badge {
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: var(--green-soft);
+      color: #166534;
+      font-size: 13px;
+      font-weight: 900;
+      border: 1px solid rgba(22, 163, 74, .16);
+      white-space: nowrap;
+    }
+
+    .sample-form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .sample-form-field {
+      display: grid;
+      gap: 8px;
+    }
+
+    .sample-form-field.full {
+      grid-column: 1 / -1;
+    }
+
+    .sample-form-field label,
+    .rating-question {
+      font-size: 13px;
+      font-weight: 850;
+      color: #3e4757;
+    }
+
+    .sample-form-field select,
+    .sample-form-field textarea,
+    .sample-form-field input[type="text"] {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fff;
+      padding: 12px 14px;
+      font: inherit;
+      color: var(--text);
+      outline: none;
+    }
+
+    .sample-form-field textarea {
+      min-height: 96px;
+      resize: vertical;
+    }
+
+    .sample-rating-list {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      padding: 16px;
+      border: 1px solid #eef2f7;
+      border-radius: 20px;
+      background: rgba(255,255,255,.72);
+    }
+
+    .sample-rating-item {
+      display: grid;
+      gap: 8px;
+    }
+
+    .star-picker {
+      display: inline-flex;
+      flex-direction: row-reverse;
+      justify-content: flex-end;
+      gap: 3px;
+    }
+
+    .star-picker input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .star-picker label {
+      cursor: pointer;
+      font-size: 24px;
+      line-height: 1;
+      color: #cbd5e1;
+      transition: .15s ease;
+    }
+
+    .star-picker input:checked ~ label,
+    .star-picker label:hover,
+    .star-picker label:hover ~ label {
+      color: var(--primary);
+    }
+
+    .choice-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .choice-cloud label {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 9px 11px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: #3e4757;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .sample-form-actions {
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding-top: 4px;
+    }
+
+    .sample-form-note {
+      color: var(--muted);
+      font-size: 13px;
+      margin: 0;
+    }
+
+    .sample-cta-strip {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 16px;
+      padding: 22px;
+      border-radius: 24px;
+      background: #fff7e6;
+      border: 1px solid rgba(245,166,35,.28);
+    }
+
+    .sample-cta-strip h3 {
+      margin: 0 0 6px;
+      font-size: 22px;
+      letter-spacing: -0.035em;
+    }
+
+    .sample-cta-strip p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .listing-row {
+      display: grid;
+      grid-template-columns: 84px 1fr auto;
+      gap: 14px;
+      align-items: center;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: #fff;
+    }
+
+    .listing-thumb {
+      width: 84px;
+      height: 64px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #f7d38d, #edf5ff);
+      display: grid;
+      place-items: center;
+      font-size: 24px;
+    }
+
+    .listing-row h4 {
+      margin: 0 0 4px;
+      font-size: 15px;
+    }
+
+    .listing-row p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .sample-warning {
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: #f8fafc;
+      border: 1px dashed #cbd5e1;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .data-layout,
+      .survey-preview,
+      .insight-panel,
+      .cta-box,
+      .sample-top,
+      .sample-columns,
+  
+
+    .sample-live-form {
+      border: 1px solid rgba(245,166,35,.35);
+      border-radius: 28px;
+      padding: 24px;
+      background: linear-gradient(135deg, #fffaf0 0%, #ffffff 58%, #ecfdf5 100%);
+      box-shadow: 0 14px 32px rgba(245, 166, 35, 0.10);
+      scroll-margin-top: 92px;
+    }
+
+    .sample-form-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .sample-form-head h3 {
+      margin: 0 0 6px;
+      font-size: 24px;
+      letter-spacing: -0.04em;
+    }
+
+    .sample-form-head p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .sample-voucher-badge {
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: var(--green-soft);
+      color: #166534;
+      font-size: 13px;
+      font-weight: 900;
+      border: 1px solid rgba(22, 163, 74, .16);
+      white-space: nowrap;
+    }
+
+    .sample-form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .sample-form-field {
+      display: grid;
+      gap: 8px;
+    }
+
+    .sample-form-field.full {
+      grid-column: 1 / -1;
+    }
+
+    .sample-form-field label,
+    .rating-question {
+      font-size: 13px;
+      font-weight: 850;
+      color: #3e4757;
+    }
+
+    .sample-form-field select,
+    .sample-form-field textarea,
+    .sample-form-field input[type="text"] {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fff;
+      padding: 12px 14px;
+      font: inherit;
+      color: var(--text);
+      outline: none;
+    }
+
+    .sample-form-field textarea {
+      min-height: 96px;
+      resize: vertical;
+    }
+
+    .sample-rating-list {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      padding: 16px;
+      border: 1px solid #eef2f7;
+      border-radius: 20px;
+      background: rgba(255,255,255,.72);
+    }
+
+    .sample-rating-item {
+      display: grid;
+      gap: 8px;
+    }
+
+    .star-picker {
+      display: inline-flex;
+      flex-direction: row-reverse;
+      justify-content: flex-end;
+      gap: 3px;
+    }
+
+    .star-picker input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .star-picker label {
+      cursor: pointer;
+      font-size: 24px;
+      line-height: 1;
+      color: #cbd5e1;
+      transition: .15s ease;
+    }
+
+    .star-picker input:checked ~ label,
+    .star-picker label:hover,
+    .star-picker label:hover ~ label {
+      color: var(--primary);
+    }
+
+    .choice-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .choice-cloud label {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 9px 11px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: #3e4757;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .sample-form-actions {
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding-top: 4px;
+    }
+
+    .sample-form-note {
+      color: var(--muted);
+      font-size: 13px;
+      margin: 0;
+    }
+
+    .sample-cta-strip {
+        grid-template-columns: 1fr;
+      }
+
+
+
+      .sample-form-grid,
+      .sample-rating-list {
+        grid-template-columns: 1fr;
+      }
+
+      .sample-form-head,
+      .sample-form-actions {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .phone {
+        margin: 0 auto;
+      }
+
+      .grid-3,
+      .kpi-grid,
+      .roadmap,
+      .sample-grid,
+      .review-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .journey {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .nav-links {
+        display: none;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero {
+        padding-top: 46px;
+      }
+
+      .hero-points,
+      .grid-3,
+      .grid-2,
+      .kpi-grid,
+      .roadmap,
+      .journey {
+        grid-template-columns: 1fr;
+      }
+
+      .phone {
+        transform: none;
+      }
+
+      .phone-screen {
+        min-height: auto;
+      }
+
+      .section-head {
+        margin-bottom: 18px;
+      }
+
+      table {
+        min-width: 660px;
+      }
+
+      .table-scroll {
+        overflow-x: auto;
+      }
+
+      .survey-title {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .fit-row,
+      .listing-row {
+        grid-template-columns: 1fr;
+      }
+
+      .fit-row b {
+        text-align: left;
+      }
+    }
+
+    @media print {
+      .topbar { position: static; }
+      body { background: #fff; }
+      .card, .kpi, .phase, .score-card, .survey-box, .feature-map, .cta-box, .sample-live-form { box-shadow: none; }
+      section { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="topbar">
+      <nav class="nav">
+        <div class="logo">
+          <div class="logo-mark">M</div>
+          <div>
+            Muaban.net<br />
+            <span class="small-muted">Feature Proposal</span>
+          </div>
+        </div>
+        <div class="nav-links">
+          <a href="#overview">Tổng quan</a>
+          <a href="#data">Dữ liệu</a>
+          <a href="#survey">Khảo sát</a>
+          <a href="#campaign">Campaign</a>
+          <a href="#sample-page">Trang mẫu</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container hero-grid">
+          <div>
+            <div class="eyebrow">🏙️ Trang tính năng mới sau khi tách site BĐS</div>
+            <h1>Thông tin khu vực dành cho bất động sản Muaban.net</h1>
+            <p class="lead">
+              Một trang hồ sơ khu vực giúp người mua, người thuê và người đăng tin hiểu nhanh thị trường BĐS, tiện ích sinh hoạt, mức độ phù hợp để sinh sống và các nhận định đáng chú ý theo từng phường/xã.
+            </p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#mockup">Xem mockup trang</a>
+              <a class="btn btn-secondary" href="#campaign">Xem campaign thu thập data</a>
+            </div>
+            <div class="hero-points">
+              <div class="point"><strong>294+</strong><span>Phường/xã trọng điểm ở TP.HCM và Hà Nội</span></div>
+              <div class="point"><strong>Monthly</strong><span>Cập nhật dữ liệu nguồn cung và giá tin đăng</span></div>
+              <div class="point"><strong>Data + UGC</strong><span>Kết hợp dữ liệu Muaban.net và đánh giá cộng đồng</span></div>
+            </div>
+          </div>
+
+          <div class="phone-wrap" id="mockup">
+            <div class="phone">
+              <div class="phone-screen">
+                <div class="mini-hero">
+                  <span class="mini-tag">Thông tin khu vực</span>
+                  <h2>Phường Sài Gòn, TP.HCM</h2>
+                  <p>Cập nhật nhanh thị trường BĐS, tiện ích sinh hoạt, giá bán, giá thuê và đánh giá cộng đồng.</p>
+                </div>
+                <div class="mini-cards">
+                  <div class="mini-card"><span class="label">Tin BĐS đang hiển thị</span><span class="value">1.248 tin</span></div>
+                  <div class="mini-card"><span class="label">Người đăng tin đang hiển thị</span><span class="value">326 người</span></div>
+                  <div class="mini-card"><span class="label">Giá bán phổ biến</span><span class="value">125–210 tr/m²</span></div>
+                  <div class="mini-card"><span class="label">Giá thuê phổ biến</span><span class="value">12–28 tr/tháng</span></div>
+                </div>
+                <div class="mini-section">
+                  <h3>Điểm phù hợp</h3>
+                  <div class="bars">
+                    <div class="bar-row"><span>Gia đình</span><div class="bar"><i style="width: 88%"></i></div><b>Cao</b></div>
+                    <div class="bar-row"><span>Người già</span><div class="bar"><i style="width: 74%"></i></div><b>Tốt</b></div>
+                    <div class="bar-row"><span>Đi làm</span><div class="bar"><i style="width: 92%"></i></div><b>Cao</b></div>
+                    <div class="bar-row"><span>Đầu tư thuê</span><div class="bar"><i style="width: 81%"></i></div><b>Tốt</b></div>
+                  </div>
+                </div>
+                <div class="mini-section">
+                  <h3>Tiện ích nổi bật</h3>
+                  <div class="tags">
+                    <span class="tag">🌳 Không gian xanh</span>
+                    <span class="tag">🏥 Y tế</span>
+                    <span class="tag">🏫 Trường học</span>
+                    <span class="tag">🛒 Mua sắm</span>
+                    <span class="tag">✅ Thuận tiện sinh hoạt</span>
+                  </div>
+                </div>
+                <div class="mini-section">
+                  <h3>Đánh giá cộng đồng</h3>
+                  <div class="rating-line"><span>Tiện ích</span><span class="stars">★★★★★</span></div>
+                  <div class="rating-line"><span>Thuận tiện sinh hoạt</span><span class="stars">★★★★☆</span></div>
+                  <div class="rating-line"><span>Yên tĩnh</span><span class="stars">★★★☆☆</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="overview">
+        <div class="container">
+          <div class="section-head">
+            <div class="section-kicker">01. Vai trò sản phẩm</div>
+            <h2 class="section-title">Trang này không phải blog, mà là hồ sơ dữ liệu khu vực</h2>
+            <p class="section-desc">
+              Mục tiêu là giúp người dùng hiểu nhanh một khu vực trước khi mua, thuê hoặc đăng tin BĐS. Nội dung nên ngắn, có cấu trúc, có nguồn dữ liệu rõ ràng và có nhận định cuối trang dựa trên dữ liệu.
+            </p>
+          </div>
+          <div class="grid-3">
+            <div class="card">
+              <div class="card-icon">📍</div>
+              <h3>Hiểu khu vực</h3>
+              <p>Tổng quan tiện ích sinh hoạt, không gian sống, nhóm người phù hợp và các điểm cần cân nhắc khi chọn khu vực.</p>
+            </div>
+            <div class="card">
+              <div class="card-icon" style="background: var(--green-soft)">🏠</div>
+              <h3>Hiểu thị trường BĐS</h3>
+              <p>Hiển thị nguồn cung, người đăng tin, tin mới, khoảng giá bán, giá thuê và loại hình BĐS phổ biến từ dữ liệu Muaban.net.</p>
+            </div>
+            <div class="card">
+              <div class="card-icon" style="background: var(--purple-soft)">💬</div>
+              <h3>Hiểu cảm nhận thực tế</h3>
+              <p>Cho phép người dùng đóng góp đánh giá để bổ sung dữ liệu cộng đồng, tăng độ tin cậy cho nhận định khu vực.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="data">
+        <div class="container data-layout">
+          <div>
+            <div class="section-head">
+              <div class="section-kicker">02. Dữ liệu cốt lõi</div>
+              <h2 class="section-title">Kết hợp dữ liệu Muaban.net và dữ liệu tiện ích sinh hoạt</h2>
+              <p class="section-desc">
+                Dữ liệu hiển thị công khai nên ưu tiên các chỉ số dễ hiểu với người dùng phổ thông như số tin đang hiển thị, số người đăng tin, khoảng giá niêm yết và loại hình bất động sản phổ biến. Các chỉ số nội bộ về hành vi người dùng chỉ nên dùng để tham khảo trong phân tích, không cần đưa trực tiếp lên trang.
+              </p>
+            </div>
+            <div class="note">
+              Ghi chú: Giá hiển thị nên là giá niêm yết từ tin đăng trên Muaban.net, không khẳng định là giá giao dịch thực tế.
+            </div>
+          </div>
+
+          <div class="card table-card table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Nhóm dữ liệu</th>
+                  <th>Chỉ số hiển thị</th>
+                  <th>Nguồn / ghi chú</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Nguồn cung</td>
+                  <td>Số tin BĐS đang hiển thị</td>
+                  <td>Tin đang hiển thị trên Muaban.net theo phường/xã</td>
+                </tr>
+                <tr>
+                  <td>Người đăng</td>
+                  <td>Số lượng người đăng tin đang hiển thị</td>
+                  <td>Số tài khoản có tin bất động sản đang hiển thị trong khu vực</td>
+                </tr>
+                <tr>
+                  <td>Tin mới</td>
+                  <td>Số tin mới trong tháng</td>
+                  <td>Dữ liệu phát sinh theo tháng</td>
+                </tr>
+                <tr>
+                  <td>Giá bán / thuê</td>
+                  <td>Khoảng giá phổ biến</td>
+                  <td>Giá niêm yết từ tin đăng, loại bỏ ngoại lệ bất thường</td>
+                </tr>
+                <tr>
+                  <td>Tiện ích</td>
+                  <td>Trường học, y tế, công viên, mua sắm</td>
+                  <td>Dữ liệu địa điểm công khai, chuẩn hóa nội bộ</td>
+                </tr>
+                <tr>
+                  <td>Cộng đồng</td>
+                  <td>Điểm đánh giá, điểm mạnh, điểm cần cân nhắc</td>
+                  <td>Khảo sát người dùng sau khi kiểm duyệt</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="container">
+          <div class="section-head">
+            <div class="section-kicker">03. Cấu trúc trang</div>
+            <h2 class="section-title">Mockup các block nội dung chính</h2>
+            <p class="section-desc">Trang nên dùng card, bảng, tag và danh sách tiện ích sinh hoạt thay vì viết dài như bài SEO truyền thống.</p>
+          </div>
+          <div class="grid-2">
+            <div class="feature-map">
+              <div class="map-pin pin-main">📍 Phường Sài Gòn</div>
+              <div class="map-pin p1">🌳 Công viên</div>
+              <div class="map-pin p2">🏥 Y tế</div>
+              <div class="map-pin p3">🏫 Trường học</div>
+              <div class="map-pin p4">🛒 Mua sắm</div>
+              <div class="map-pin p5">✅ Tiện ích sinh hoạt</div>
+              <div class="legend">
+                <span>Tổng quan khu vực</span>
+                <span>Dữ liệu BĐS</span>
+                <span>Tiện ích</span>
+                <span>Đánh giá người dùng</span>
+                <span>Tin đăng mới nhất</span>
+              </div>
+            </div>
+            <div class="grid-2">
+              <div class="card"><div class="card-icon">1</div><h3>Hero tổng quan</h3><p>Tên phường/xã, mô tả ngắn, số liệu nổi bật, nhóm người phù hợp.</p></div>
+              <div class="card"><div class="card-icon">2</div><h3>Thị trường BĐS</h3><p>Số tin đang hiển thị, người đăng tin, tin mới, giá bán, giá thuê, loại hình phổ biến.</p></div>
+              <div class="card"><div class="card-icon">3</div><h3>Tiện ích xung quanh</h3><p>Trường học, y tế, không gian xanh, mua sắm, dịch vụ và mức độ thuận tiện sinh hoạt.</p></div>
+              <div class="card"><div class="card-icon">4</div><h3>Nhận định cuối trang</h3><p>Tổng hợp điểm đáng chú ý dựa trên dữ liệu, không nhận định cảm tính.</p></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="survey">
+        <div class="container survey-preview">
+          <div class="survey-box">
+            <div class="survey-title">
+              <h3>Bạn đánh giá khu vực này như thế nào?</h3>
+              <span class="voucher">🎁 Voucher -10%</span>
+            </div>
+            <div class="field">
+              <label>Bạn có trải nghiệm gì với khu vực này?</label>
+              <div class="fake-input">Tôi đang sống / từng sống / đang thuê / môi giới / đang tìm mua</div>
+            </div>
+            <div class="ratings">
+              <div class="rating-line"><strong>Thuận tiện sinh hoạt</strong><span class="stars">★★★★☆</span></div>
+              <div class="rating-line"><strong>Tiện ích xung quanh</strong><span class="stars">★★★★★</span></div>
+              <div class="rating-line"><strong>Không gian xanh</strong><span class="stars">★★★★☆</span></div>
+              <div class="rating-line"><strong>Mức độ an tâm</strong><span class="stars">★★★★☆</span></div>
+              <div class="rating-line"><strong>Mức độ yên tĩnh</strong><span class="stars">★★★☆☆</span></div>
+            </div>
+            <div class="field" style="margin-top: 16px;">
+              <label>Điểm cần cân nhắc</label>
+              <div class="fake-textarea">Ví dụ: mức độ đông đúc, giá thuê cao, độ ồn, chỗ gửi xe...</div>
+            </div>
+            <a class="btn btn-primary" href="#campaign" style="width:100%;">Gửi đánh giá để nhận ưu đãi</a>
+          </div>
+
+          <div>
+            <div class="section-head">
+              <div class="section-kicker">04. Community data layer</div>
+              <h2 class="section-title">Biến người dùng thành nguồn dữ liệu khu vực</h2>
+              <p class="section-desc">
+                Form đánh giá không nên là bình luận tự do. Nên là khảo sát có cấu trúc để dễ chuẩn hóa, kiểm duyệt, tính điểm và dùng lại cho nhận định khu vực.
+              </p>
+            </div>
+            <div class="grid-2">
+              <div class="card"><h3>Chấm điểm 1–5</h3><p>Tiện ích, không gian xanh, mức độ an tâm, yên tĩnh và mức độ thuận tiện sinh hoạt.</p></div>
+              <div class="card"><h3>Câu hỏi mở</h3><p>Điểm mạnh nhất là gì? Khu vực phù hợp với nhóm người nào? Người dùng muốn bổ sung điều gì?</p></div>
+              <div class="card"><h3>Kiểm duyệt</h3><p>Chỉ hiển thị dạng tổng hợp sau khi loại spam, trùng lặp, quảng cáo và thông tin cá nhân.</p></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="campaign">
+        <div class="container">
+          <div class="campaign-card">
+            <div class="section-kicker" style="color:#ffd36a">05. Campaign thu thập khảo sát</div>
+            <h3>Chia sẻ góc nhìn khu vực – Nhận ưu đãi đăng tin</h3>
+            <p>
+              Để tăng tỷ lệ người dùng hoàn thành khảo sát, Muaban.net nên gắn survey với incentive rõ ràng: hoàn thành đánh giá hợp lệ sẽ nhận voucher giảm giá dịch vụ hiển thị tin đăng bất động sản.
+            </p>
+            <div class="pill-list">
+              <span>Voucher giảm 10%</span>
+              <span>Duyệt trước khi cấp</span>
+              <span>Áp dụng ngành BĐS</span>
+              <span>Hạn dùng 7–15 ngày</span>
+            </div>
+            <div class="campaign-list">
+              <div><strong>🎯</strong> Ưu tiên mời người đang đăng tin, môi giới, chủ nhà, người từng thuê/mua tại khu vực.</div>
+              <div><strong>🛡️</strong> Mỗi tài khoản/số điện thoại chỉ nhận tối đa số voucher giới hạn mỗi tháng để tránh lạm dụng.</div>
+              <div><strong>✅</strong> Chỉ khảo sát hợp lệ, đủ thông tin, không spam, không trùng lặp mới được cấp voucher.</div>
+              <div><strong>📩</strong> Kênh triển khai: email, trang quản lý tin, sau khi đăng tin, banner listing, sales/CSKH, Zalo/SMS.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="container">
+          <div class="section-head">
+            <div class="section-kicker">06. Luồng người dùng</div>
+            <h2 class="section-title">Từ xem trang khu vực đến đóng góp dữ liệu</h2>
+            <p class="section-desc">Luồng cần ngắn, dễ hiểu và có cơ chế kiểm duyệt trước khi dữ liệu được đưa vào nhận định.</p>
+          </div>
+          <div class="journey">
+            <div class="step"><h3>Vào trang khu vực</h3><p>Người dùng xem thông tin thị trường BĐS, tiện ích và nhận định nhanh.</p></div>
+            <div class="step"><h3>Thấy CTA khảo sát</h3><p>“Bạn hiểu khu vực này? Chia sẻ đánh giá để nhận voucher đăng tin.”</p></div>
+            <div class="step"><h3>Đăng nhập / xác thực</h3><p>Yêu cầu tài khoản, email hoặc số điện thoại để giảm spam và gian lận.</p></div>
+            <div class="step"><h3>Gửi đánh giá</h3><p>Người dùng hoàn thành khảo sát 8–10 câu trong khoảng 2–3 phút.</p></div>
+            <div class="step"><h3>Duyệt & cấp voucher</h3><p>Khảo sát hợp lệ được cấp voucher, dữ liệu được tổng hợp vào trang khu vực.</p></div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="container insight-panel">
+          <div class="insight">
+            <div class="section-kicker">07. Cách tạo nhận định</div>
+            <h3>Nhận định cuối trang phải dựa trên rule dữ liệu</h3>
+            <p>Không nên viết riêng nhận định ở từng block. Thay vào đó, tổng hợp cuối trang các điểm đáng chú ý từ dữ liệu Muaban.net, tiện ích và đánh giá cộng đồng.</p>
+            <div class="insight-list">
+              <div class="insight-item"><div class="check">✓</div><div><strong>Nếu tiện ích + trường học + không gian xanh cao</strong><span>Gợi ý khu vực phù hợp gia đình có con nhỏ.</span></div></div>
+              <div class="insight-item"><div class="check">✓</div><div><strong>Nếu y tế + yên tĩnh + công viên cao</strong><span>Gợi ý khu vực phù hợp người lớn tuổi.</span></div></div>
+              <div class="insight-item"><div class="check">✓</div><div><strong>Nếu nguồn cung thuê + mức độ thuận tiện sinh hoạt cao theo đánh giá người dùng</strong><span>Gợi ý phù hợp người đi làm hoặc người thuê nhà.</span></div></div>
+              <div class="insight-item"><div class="check">✓</div><div><strong>Nếu cộng đồng nhắc nhiều về đông đúc/ồn ào</strong><span>Đưa vào mục điểm cần cân nhắc, tránh nhận định một chiều.</span></div></div>
+            </div>
+          </div>
+          <div class="score-card">
+            <div class="score-big"><span>4.1</span></div>
+            <div class="score-caption">Điểm phù hợp tổng hợp từ dữ liệu khu vực và đánh giá cộng đồng</div>
+            <div class="bars">
+              <div class="bar-row"><span>Tiện ích</span><div class="bar"><i style="width: 90%"></i></div><b>4.5</b></div>
+              <div class="bar-row"><span>Thuận tiện</span><div class="bar"><i style="width: 76%"></i></div><b>3.8</b></div>
+              <div class="bar-row"><span>Xanh</span><div class="bar"><i style="width: 80%"></i></div><b>4.0</b></div>
+              <div class="bar-row"><span>An tâm</span><div class="bar"><i style="width: 82%"></i></div><b>4.1</b></div>
+              <div class="bar-row"><span>Yên tĩnh</span><div class="bar"><i style="width: 64%"></i></div><b>3.2</b></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <section id="sample-page">
+        <div class="container">
+          <div class="section-head">
+            <div class="section-kicker">08. Trang ví dụ mẫu</div>
+            <h2 class="section-title">Ví dụ hiển thị cho Phường Sài Gòn, TP.HCM</h2>
+            <p class="section-desc">
+              Đây là mẫu demo để trình bày tính năng. Các số liệu BĐS, điểm đánh giá và nhận định bên dưới là dữ liệu minh họa, cần thay bằng dữ liệu thật từ Muaban.net, dữ liệu tiện ích sinh hoạt và khảo sát người dùng khi triển khai.
+            </p>
+          </div>
+
+          <div class="sample-page">
+            <div class="sample-top">
+              <div>
+                <div class="eyebrow-mini">📍 Hồ sơ khu vực / Bất động sản</div>
+                <h2>Thông tin khu vực Phường Sài Gòn, TP.HCM</h2>
+                <p>
+                  Khu vực trung tâm của TP.HCM, nổi bật nhờ mật độ tiện ích sinh hoạt cao và nguồn cung BĐS đô thị đa dạng. Trang này giúp người mua, người thuê và người đăng tin nắm nhanh dữ liệu thị trường và cảm nhận cộng đồng.
+                </p>
+                <div class="sample-badges">
+                  <span>🏙️ Trung tâm đô thị</span>
+                  <span>🛍️ Tiện ích cao</span>
+                  <span>🚶 Dễ tiếp cận dịch vụ</span>
+                  <span>💼 Phù hợp người đi làm</span>
+                </div>
+              </div>
+              <div class="sample-score">
+                <strong>4.2/5</strong>
+                <span>Điểm phù hợp minh họa, tổng hợp từ tiện ích, nguồn cung và đánh giá cộng đồng giả lập</span>
+              </div>
+            </div>
+
+            <div class="sample-body">
+              <div class="sample-warning">
+                <strong>Ghi chú demo:</strong> Phường Sài Gòn được dùng làm ví dụ trình bày. Thông tin khu vực, tiện ích và số liệu thị trường cần được đối soát bằng nguồn chính thức/dữ liệu nội bộ trước khi public. Phần nhận định công khai chỉ nên tập trung vào dữ liệu tin đăng, tiện ích sinh hoạt và đánh giá thực tế từ người dùng.
+              </div>
+
+              <div class="sample-grid">
+                <div class="sample-stat"><span>Tin BĐS đang hiển thị</span><b>1.248 tin</b></div>
+                <div class="sample-stat"><span>Người đăng tin đang hiển thị</span><b>326 người</b></div>
+                <div class="sample-stat"><span>Giá bán phổ biến</span><b>125–210 tr/m²</b></div>
+                <div class="sample-stat"><span>Giá thuê phổ biến</span><b>12–28 tr/tháng</b></div>
+              </div>
+
+              <div class="sample-columns">
+                <div class="sample-card">
+                  <h3 class="sample-section-title">Tổng quan khu vực</h3>
+                  <p class="sample-copy">
+                    Phường Sài Gòn có thể được định vị là khu vực trung tâm với lợi thế về thương mại, dịch vụ, văn phòng và các tiện ích sinh hoạt hằng ngày. Nhóm người phù hợp có thể gồm người đi làm tại trung tâm, người thuê nhà ưu tiên vị trí thuận tiện, nhà đầu tư khai thác cho thuê và gia đình cần tiếp cận nhanh trường học, y tế, mua sắm.
+                  </p>
+                  <div class="utility-list">
+                    <div class="utility-item">🏛️ Gần nhiều địa điểm dịch vụ, văn hóa và du lịch quen thuộc ở khu trung tâm.</div>
+                    <div class="utility-item">🚕 Thuận tiện tiếp cận các tiện ích và khu vực lân cận theo nhu cầu hằng ngày.</div>
+                    <div class="utility-item">🏢 Mật độ văn phòng, dịch vụ và thương mại cao.</div>
+                  </div>
+                </div>
+
+                <div class="sample-card">
+                  <h3 class="sample-section-title">Tiện ích nổi bật</h3>
+                  <div class="utility-list">
+                    <div class="utility-item">🌳 Không gian xanh: công viên, khu vực đi bộ, mảng xanh trung tâm.</div>
+                    <div class="utility-item">🏥 Y tế: bệnh viện, phòng khám, nhà thuốc trong bán kính gần.</div>
+                    <div class="utility-item">🏫 Giáo dục: trường học các cấp, trung tâm ngoại ngữ, cơ sở đào tạo.</div>
+                    <div class="utility-item">🛒 Mua sắm: chợ, siêu thị, TTTM, cửa hàng tiện lợi.</div>
+                    <div class="utility-item">☕ Dịch vụ: nhà hàng, quán cà phê, ngân hàng, văn phòng giao dịch.</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="sample-card">
+                <h3 class="sample-section-title">Thị trường BĐS tại khu vực</h3>
+                <div class="table-scroll">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Chỉ số</th>
+                        <th>Giá trị demo</th>
+                        <th>Cách lấy dữ liệu khi triển khai</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Nguồn cung</td>
+                        <td>1.248 tin đang hiển thị</td>
+                        <td>Tin BĐS đang còn hiển thị trên Muaban.net theo phường/xã</td>
+                      </tr>
+                      <tr>
+                        <td>Người đăng tin</td>
+                        <td>326 người đăng tin đang hiển thị</td>
+                        <td>Số tài khoản có tin đang hiển thị trong khu vực</td>
+                      </tr>
+                      <tr>
+                        <td>Loại hình phổ biến</td>
+                        <td>Căn hộ, nhà riêng, mặt bằng, phòng thuê</td>
+                        <td>Phân bổ category BĐS trong khu vực</td>
+                      </tr>
+                      <tr>
+                        <td>Giá bán phổ biến</td>
+                        <td>125–210 triệu/m²</td>
+                        <td>Giá niêm yết từ tin đăng, loại bỏ ngoại lệ bất thường</td>
+                      </tr>
+                      <tr>
+                        <td>Giá thuê phổ biến</td>
+                        <td>12–28 triệu/tháng</td>
+                        <td>Giá thuê niêm yết từ tin đăng đang hiển thị</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="sample-columns">
+                <div class="sample-card">
+                  <h3 class="sample-section-title">Phù hợp với nhóm người nào?</h3>
+                  <div class="fit-row"><strong>Người đi làm</strong><span>Ưu tiên vị trí trung tâm, nhiều dịch vụ và tiện ích hằng ngày.</span><b>Cao</b></div>
+                  <div class="fit-row"><strong>Người thuê nhà</strong><span>Nhiều lựa chọn thuê, phù hợp nhu cầu ở gần nơi làm việc.</span><b>Cao</b></div>
+                  <div class="fit-row"><strong>Gia đình trẻ</strong><span>Tiện ích đầy đủ, nhưng cần cân nhắc chi phí thuê/mua.</span><b>Khá</b></div>
+                  <div class="fit-row"><strong>Người lớn tuổi</strong><span>Có tiện ích y tế và công viên, nhưng nên cân nhắc mức độ yên tĩnh.</span><b>Khá</b></div>
+                  <div class="fit-row"><strong>Đầu tư cho thuê</strong><span>Có nhu cầu thuê từ người đi làm, chuyên gia, khách lưu trú dài hạn.</span><b>Cao</b></div>
+                </div>
+
+                <div class="sample-review">
+                  <h3 class="sample-section-title">Đánh giá cộng đồng</h3>
+                  <p class="sample-copy">Dữ liệu minh họa từ 128 lượt khảo sát hợp lệ. Khi triển khai thật, chỉ hiển thị sau kiểm duyệt và đủ số lượng đánh giá tối thiểu.</p>
+                  <div class="review-grid">
+                    <div class="review-tile"><span>Tiện ích</span><b>4.6</b></div>
+                    <div class="review-tile"><span>Thuận tiện</span><b>3.8</b></div>
+                    <div class="review-tile"><span>Xanh</span><b>4.1</b></div>
+                    <div class="review-tile"><span>An tâm</span><b>4.2</b></div>
+                    <div class="review-tile"><span>Yên tĩnh</span><b>3.3</b></div>
+                  </div>
+                  <div class="utility-list">
+                    <div class="utility-item">👍 Điểm được nhắc nhiều: gần trung tâm, tiện ích dày, thuận tiện sinh hoạt.</div>
+                    <div class="utility-item">⚠️ Điểm cần cân nhắc: khu vực đông đúc vào một số thời điểm, chi phí thuê/mua cao.</div>
+                  </div>
+                </div>
+              </div>
+
+
+
+              <div class="sample-live-form" id="sample-review-form">
+                <div class="sample-form-head">
+                  <div>
+                    <h3>Gửi đánh giá của bạn về Phường Sài Gòn</h3>
+                    <p>Form này nằm trực tiếp trên trang mẫu để người dùng có thể đánh giá ngay sau khi xem thông tin khu vực.</p>
+                  </div>
+                  <div class="sample-voucher-badge">🎁 Voucher giảm 10% hiển thị tin</div>
+                </div>
+
+                <form class="sample-form-grid">
+                  <div class="sample-form-field">
+                    <label for="relationship">Bạn có trải nghiệm gì với khu vực này?</label>
+                    <select id="relationship" name="relationship">
+                      <option>Đang sống tại khu vực này</option>
+                      <option>Từng sống tại khu vực này</option>
+                      <option>Đang thuê nhà tại khu vực này</option>
+                      <option>Đang tìm mua / tìm thuê tại khu vực này</option>
+                      <option>Là chủ nhà / môi giới có tin đăng tại khu vực này</option>
+                      <option>Thường xuyên sinh hoạt / làm việc tại khu vực này</option>
+                    </select>
+                  </div>
+
+
+                  <div class="sample-rating-list">
+                    <div class="sample-rating-item">
+                      <div class="rating-question">Thuận tiện hằng ngày</div>
+                      <div class="star-picker" aria-label="Đánh giá thuận tiện sinh hoạt">
+                        <input type="radio" id="traffic5" name="traffic" checked><label for="traffic5">★</label>
+                        <input type="radio" id="traffic4" name="traffic"><label for="traffic4">★</label>
+                        <input type="radio" id="traffic3" name="traffic"><label for="traffic3">★</label>
+                        <input type="radio" id="traffic2" name="traffic"><label for="traffic2">★</label>
+                        <input type="radio" id="traffic1" name="traffic"><label for="traffic1">★</label>
+                      </div>
+                    </div>
+                    <div class="sample-rating-item">
+                      <div class="rating-question">Tiện ích xung quanh</div>
+                      <div class="star-picker" aria-label="Đánh giá tiện ích">
+                        <input type="radio" id="utility5" name="utility" checked><label for="utility5">★</label>
+                        <input type="radio" id="utility4" name="utility"><label for="utility4">★</label>
+                        <input type="radio" id="utility3" name="utility"><label for="utility3">★</label>
+                        <input type="radio" id="utility2" name="utility"><label for="utility2">★</label>
+                        <input type="radio" id="utility1" name="utility"><label for="utility1">★</label>
+                      </div>
+                    </div>
+                    <div class="sample-rating-item">
+                      <div class="rating-question">Không gian xanh</div>
+                      <div class="star-picker" aria-label="Đánh giá không gian xanh">
+                        <input type="radio" id="green5" name="green"><label for="green5">★</label>
+                        <input type="radio" id="green4" name="green" checked><label for="green4">★</label>
+                        <input type="radio" id="green3" name="green"><label for="green3">★</label>
+                        <input type="radio" id="green2" name="green"><label for="green2">★</label>
+                        <input type="radio" id="green1" name="green"><label for="green1">★</label>
+                      </div>
+                    </div>
+                    <div class="sample-rating-item">
+                      <div class="rating-question">Mức độ an tâm</div>
+                      <div class="star-picker" aria-label="Đánh giá mức độ an tâm">
+                        <input type="radio" id="security5" name="security"><label for="security5">★</label>
+                        <input type="radio" id="security4" name="security" checked><label for="security4">★</label>
+                        <input type="radio" id="security3" name="security"><label for="security3">★</label>
+                        <input type="radio" id="security2" name="security"><label for="security2">★</label>
+                        <input type="radio" id="security1" name="security"><label for="security1">★</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="sample-form-field full">
+                    <label>Khu vực này phù hợp nhất với nhóm nào?</label>
+                    <div class="choice-cloud">
+                      <label><input type="checkbox" checked> Người đi làm</label>
+                      <label><input type="checkbox" checked> Người thuê nhà</label>
+                      <label><input type="checkbox"> Gia đình có con nhỏ</label>
+                      <label><input type="checkbox"> Người lớn tuổi</label>
+                      <label><input type="checkbox" checked> Nhà đầu tư cho thuê</label>
+                      <label><input type="checkbox"> Sinh viên</label>
+                    </div>
+                  </div>
+
+                  <div class="sample-form-field">
+                    <label for="strength">Điểm mạnh nhất của khu vực</label>
+                    <input id="strength" name="strength" type="text" value="Nhiều tiện ích, thuận tiện sinh hoạt, gần trung tâm" />
+                  </div>
+
+                  <div class="sample-form-field">
+                    <label for="concern">Điểm cần cân nhắc</label>
+                    <input id="concern" name="concern" type="text" value="Mặt bằng giá cao, khu vực đông đúc vào một số thời điểm" />
+                  </div>
+
+                  <div class="sample-form-field full">
+                    <label for="comment">Nhận xét thêm</label>
+                    <textarea id="comment" name="comment">Khu vực phù hợp với người cần sống gần trung tâm và ưu tiên tiện ích. Tuy nhiên nên xem kỹ chỗ gửi xe, mức độ đông đúc và độ ồn trước khi thuê hoặc mua.</textarea>
+                  </div>
+
+                  <div class="sample-form-actions">
+                    <p class="sample-form-note">Demo UI: Khi triển khai thật, cần đăng nhập/xác thực và kiểm duyệt trước khi cấp voucher.</p>
+                    <button class="btn btn-primary" type="button">Gửi đánh giá & nhận voucher</button>
+                  </div>
+                </form>
+              </div>
+
+              <div class="sample-card">
+                <h3 class="sample-section-title">Điểm đáng chú ý tại Phường Sài Gòn</h3>
+                <p class="sample-copy">
+                  Dựa trên dữ liệu tin đăng giả lập, tiện ích khu vực và đánh giá cộng đồng minh họa, Phường Sài Gòn có lợi thế về mức độ tiện ích, mức độ thuận tiện sinh hoạt và nhu cầu thuê. Khu vực này phù hợp với người đi làm, người thuê cần vị trí trung tâm và nhà đầu tư khai thác cho thuê. Tuy nhiên, người mua/thuê nên cân nhắc mặt bằng giá, mức độ đông đúc và mức độ yên tĩnh trước khi ra quyết định.
+                </p>
+              </div>
+
+
+              <div class="sample-card">
+                <h3 class="sample-section-title">Tin bất động sản mới nhất</h3>
+                <div class="utility-list">
+                  <div class="listing-row">
+                    <div class="listing-thumb">🏢</div>
+                    <div><h4>Căn hộ trung tâm, gần khu dịch vụ, thuận tiện sinh hoạt</h4><p>2 phòng ngủ · 68 m² · Giá thuê demo: 24 triệu/tháng</p></div>
+                    <a class="btn btn-secondary" href="#">Xem tin</a>
+                  </div>
+                  <div class="listing-row">
+                    <div class="listing-thumb">🏠</div>
+                    <div><h4>Nhà riêng khu trung tâm, phù hợp ở hoặc cho thuê</h4><p>Diện tích demo: 52 m² · Giá bán demo: 16,8 tỷ</p></div>
+                    <a class="btn btn-secondary" href="#">Xem tin</a>
+                  </div>
+                  <div class="listing-row">
+                    <div class="listing-thumb">🏬</div>
+                    <div><h4>Mặt bằng kinh doanh gần khu thương mại</h4><p>Diện tích demo: 90 m² · Giá thuê demo: 58 triệu/tháng</p></div>
+                    <a class="btn btn-secondary" href="#">Xem tin</a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="sample-card">
+                <h3 class="sample-section-title">Khu vực lân cận nên liên kết</h3>
+                <div class="tags">
+                  <span class="tag">Phường Bến Thành</span>
+                  <span class="tag">Phường Tân Định</span>
+                  <span class="tag">Phường Khánh Hội</span>
+                  <span class="tag">Phường An Khánh</span>
+                  <span class="tag">Khu vực Quận 1 cũ</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="footer-cta">
+        <div class="container">
+          <div class="cta-box">
+            <div>
+              <h2>Định hướng cuối cùng</h2>
+              <p>
+                Trang “Thông tin khu vực” nên trở thành lớp dữ liệu riêng của Muaban.net: dữ liệu tin đăng cho biết thị trường đang có gì, dữ liệu tiện ích cho biết khu vực có gì, còn đánh giá người dùng cho biết người thật cảm nhận khu vực đó như thế nào.
+              </p>
+            </div>
+            <a class="btn btn-primary" href="#overview">Quay lại đầu trang</a>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

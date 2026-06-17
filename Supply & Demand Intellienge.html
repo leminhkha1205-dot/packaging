@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Feature Plan - Supply &amp; Demand Intelligence | Muaban.net</title>
+<style>
+    :root{
+      --bg:#f4f6f8;--card:#fff;--text:#1f2937;--muted:#6b7280;--border:#e5e7eb;
+      --primary:#0f766e;--primary-dark:#115e59;--primary-soft:#ccfbf1;
+      --blue:#1d4ed8;--blue-soft:#dbeafe;--green:#166534;--green-soft:#dcfce7;
+      --red:#991b1b;--red-soft:#fee2e2;--yellow:#92400e;--yellow-soft:#fef3c7;
+      --shadow:0 8px 24px rgba(15,23,42,.06)
+    }
+    *{box-sizing:border-box} html{scroll-behavior:smooth}
+    body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text);line-height:1.65}
+    .container{max-width:1220px;margin:auto;padding:28px 18px 80px}
+    .hero{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;padding:38px;border-radius:24px;box-shadow:var(--shadow);margin-bottom:22px}
+    .hero h1{margin:0 0 12px;font-size:34px;line-height:1.25}.hero p{margin:0;max-width:940px;color:#e0f2f1;font-size:17px}
+    .badge-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.badge{padding:7px 12px;border-radius:999px;background:rgba(255,255,255,.16);font-size:13px;font-weight:700}
+    .section{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:26px;margin-bottom:20px;box-shadow:var(--shadow)}
+    h2{margin:0 0 14px;font-size:25px;line-height:1.35;color:#111827}h3{margin:24px 0 10px;font-size:19px;color:#111827}h4{margin:18px 0 8px;font-size:16px;color:#111827}
+    p{margin:0 0 12px}ul,ol{margin:8px 0 14px 22px;padding:0}li{margin-bottom:6px}
+    table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14px;border-radius:14px;overflow:hidden}th,td{border:1px solid var(--border);padding:12px 14px;text-align:left;vertical-align:top}th{background:#f3f4f6;color:#111827;font-weight:800}
+    .grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.grid-4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+    .card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:18px}.card h3,.card h4{margin-top:0}
+    .note,.success,.warning,.danger,.info{padding:14px 16px;border-radius:14px;margin:14px 0;border-left:5px solid}.note{background:var(--primary-soft);border-color:var(--primary)}.success{background:var(--green-soft);border-color:var(--green)}.warning{background:var(--yellow-soft);border-color:var(--yellow)}.danger{background:var(--red-soft);border-color:var(--red)}.info{background:var(--blue-soft);border-color:var(--blue)}
+    .pill{display:inline-block;padding:4px 9px;border-radius:999px;font-size:12px;font-weight:800;white-space:nowrap}.pill-red{background:var(--red-soft);color:var(--red)}.pill-yellow{background:var(--yellow-soft);color:var(--yellow)}.pill-green{background:var(--green-soft);color:var(--green)}.pill-blue{background:var(--blue-soft);color:var(--blue)}
+    .toc{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 20px}.toc a{display:block;padding:6px 0;color:var(--primary);text-decoration:none;font-weight:700}.toc a:hover{text-decoration:underline}
+    .mock-page{border:1px solid #cbd5e1;border-radius:20px;overflow:hidden;background:#fff;margin:18px 0}.mock-topbar{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:#0f766e;color:#fff;font-weight:700}.mock-content{padding:20px}.mock-hero{background:#f0fdfa;border:1px solid #99f6e4;border-radius:16px;padding:18px;margin-bottom:16px}
+    .metric-card{border:1px solid var(--border);background:#fff;border-radius:16px;padding:16px}.metric-card .label{color:var(--muted);font-size:13px;margin-bottom:6px}.metric-card .value{font-size:26px;line-height:1;font-weight:800;color:#111827}.trend-up{color:var(--green);font-size:13px;margin-top:8px;font-weight:700}.trend-down{color:var(--red);font-size:13px;margin-top:8px;font-weight:700}.trend-stable{color:var(--yellow);font-size:13px;margin-top:8px;font-weight:700}
+    .vote-box{border:1px solid var(--border);background:#fff;border-radius:16px;padding:16px;margin-bottom:12px}.vote-question{font-weight:800;color:#111827;margin-bottom:12px}.vote-actions{display:flex;gap:10px;flex-wrap:wrap}.btn{display:inline-block;border:1px solid var(--border);border-radius:12px;padding:10px 14px;background:#fff;color:#111827;font-weight:800}.btn-green{background:var(--green-soft);color:var(--green);border-color:#86efac}.btn-red{background:var(--red-soft);color:var(--red);border-color:#fecaca}.btn-primary{background:var(--primary);color:#fff;border-color:var(--primary)}
+    .flow{counter-reset:step;list-style:none;margin:0;padding:0}.flow li{counter-increment:step;position:relative;padding:12px 14px 12px 52px;margin-bottom:10px;background:#fff;border:1px solid var(--border);border-radius:14px}.flow li:before{content:counter(step);position:absolute;left:14px;top:12px;width:26px;height:26px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px}
+    .small{color:var(--muted);font-size:13px}.footer{color:var(--muted);text-align:center;font-size:13px;margin-top:30px}
+
+
+    .chart-card {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: #ffffff;
+      padding: 18px;
+      margin: 14px 0 22px;
+      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.05);
+    }
+
+    .chart-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 12px;
+    }
+
+    .chart-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 4px;
+    }
+
+    .chart-subtitle {
+      font-size: 13px;
+      color: #6b7280;
+    }
+
+    .chart-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-size: 13px;
+      color: #374151;
+      white-space: nowrap;
+    }
+
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      display: inline-block;
+    }
+
+    .legend-supply-1 {
+      background: #0f766e;
+    }
+
+    .legend-supply-2 {
+      background: #2563eb;
+    }
+
+    .legend-demand-1 {
+      background: #7c3aed;
+    }
+
+    .legend-demand-2 {
+      background: #ea580c;
+    }
+
+    .line-chart-svg {
+      width: 100%;
+      height: 240px;
+      display: block;
+      background: #f8fafc;
+      border-radius: 14px;
+      border: 1px solid #e5e7eb;
+    }
+
+    .chart-axis-text {
+      font-size: 12px;
+      fill: #6b7280;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .chart-grid-line {
+      stroke: #e5e7eb;
+      stroke-width: 1;
+    }
+
+    .chart-line {
+      fill: none;
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .chart-point {
+      stroke: #ffffff;
+      stroke-width: 2;
+    }
+
+    .feedback-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin: 18px 0 24px;
+    }
+
+    .feedback-card {
+      border: 1px solid #d9e2ec;
+      border-radius: 18px;
+      background: #ffffff;
+      padding: 20px;
+      box-shadow: 0 8px 22px rgba(15, 23, 42, 0.07);
+    }
+
+    .feedback-card-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 16px;
+      line-height: 1.55;
+    }
+
+    .feedback-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .feedback-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-width: 168px;
+      padding: 14px 18px;
+      border-radius: 14px;
+      font-size: 15px;
+      font-weight: 800;
+      border: 1px solid transparent;
+      cursor: pointer;
+      appearance: none;
+      -webkit-appearance: none;
+      font-family: Arial, Helvetica, sans-serif;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+    }
+
+    .feedback-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 5px 14px rgba(15, 23, 42, 0.12);
+      filter: brightness(0.98);
+    }
+
+    .feedback-btn-agree {
+      background: #dcfce7;
+      color: #166534;
+      border-color: #86efac;
+    }
+
+    .feedback-btn-disagree {
+      background: #fee2e2;
+      color: #991b1b;
+      border-color: #fecaca;
+    }
+
+    .feedback-btn .icon {
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    .feedback-hint {
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px dashed #e5e7eb;
+      color: #6b7280;
+      font-size: 13px;
+    }
+
+    @media(max-width:900px){.grid-2,.grid-3,.grid-4,.toc{grid-template-columns:1fr}.hero{padding:24px}.hero h1{font-size:27px}.section{padding:20px}table{display:block;overflow-x:auto;white-space:nowrap}.mock-topbar{align-items:flex-start;flex-direction:column;gap:6px}}
+  </style>
+</head>
+<body>
+<main class="container">
+<section class="hero">
+<h1>Feature Plan: Supply &amp; Demand Intelligence</h1>
+</section>
+<section class="section"><h2>Mục lục</h2><div class="toc">
+<a href="#scope">1. Phạm vi của tính năng</a><a href="#definition">2. Định nghĩa tính năng</a><a href="#data">3. Dữ liệu đầu vào bắt buộc</a><a href="#logic">4. Logic chuyển data thành nhận định</a><a href="#page-structure">5. Cấu trúc trang tính năng</a>
+</div></section>
+<section class="section" id="scope">
+<h2>1. Phạm vi của tính năng</h2>
+<table><thead><tr><th>Hạng mục</th><th>Quy định đúng</th></tr></thead><tbody>
+<tr><td>Khu vực</td><td>Chỉ áp dụng cho phường/xã mới tại TP.HCM và Hà Nội.</td></tr>
+<tr><td>Số lượng khu vực</td><td>Tổng cộng 294 phường/xã.</td></tr>
+<tr><td>Tần suất cập nhật</td><td>Cập nhật hàng tháng.</td></tr>
+<tr><td>Đối tượng nhận thông tin</td><td>Khách hàng đăng tin và khách hàng xem tin bất động sản.</td></tr>
+<tr><td>Kênh truy cập chính</td><td>Email gửi khách hàng → click vào trang tính năng. Ngoài ra, khách hàng có thể vào trực tiếp.</td></tr>
+<tr><td>Mục tiêu chính</td><td>
+<ol>
+<li><strong>Đối với Muaban.net:</strong> Tạo ra nguồn content chất lượng, unique và gửi đến khách hàng thông qua kênh email. Tăng Organic Traffic thông qua trang tính năng.</li>
+<li><strong>Đối với khách hàng:</strong> Giúp khách hàng hiểu cung cầu thị trường khu vực.</li>
+</ol>
+</td></tr>
+</tbody></table>
+</section>
+<section class="section" id="definition">
+<h2>2. Định nghĩa tính năng</h2>
+<div class="note"><strong>Supply &amp; Demand Intelligence</strong> là trang tính năng giúp khách hàng biết tình hình cung – cầu bất động sản tại một phường/xã trong tháng hiện tại, dựa trên báo cáo nội bộ về hành vi người dùng bất động sản trên Muaban.net.</div>
+<div class="warning"><strong>Disclaimer bắt buộc:</strong> Các nhận định trong trang được Muaban.net tổng hợp từ dữ liệu tin đăng và hành vi người dùng bất động sản trên Muaban.net. Thông tin có giá trị tham khảo về xu hướng cung – cầu trên nền tảng, không đại diện cho toàn bộ thị trường bất động sản.</div>
+</section>
+<section class="section" id="data">
+<h2>3. Dữ liệu đầu vào bắt buộc</h2>
+<h3>3.1. Nguồn cung</h3>
+<table><thead><tr><th>Chỉ số</th><th>Định nghĩa</th><th>So sánh</th><th>Cách diễn giải cho khách hàng</th></tr></thead><tbody>
+<tr><td><strong>Số lượng người đăng tin trong khu vực</strong></td><td>Số lượng người/tài khoản có đăng tin bất động sản trong phường/xã trong tháng. <br><span class="small">(Lấy từ dữ liệu tài khoản/người đăng tin có phát sinh tin BĐS theo phường/xã trong tháng)</span></td><td>So với tháng trước đó.</td><td>Cho biết khu vực có nhiều hay ít người đang bán/cho thuê hơn tháng trước.</td></tr>
+<tr><td><strong>Số tin đăng mới + tin đăng cũ đang còn dịch vụ</strong></td><td>Tổng số tin mới trong tháng cộng với tin cũ vẫn còn sử dụng dịch vụ/đang được duy trì hiển thị. <br><span class="small">(Lấy từ dữ liệu tin đăng BĐS mới và tin đăng BĐS cũ còn dịch vụ hiển thị theo phường/xã trong tháng)</span></td><td>So với tháng trước đó.</td><td>Cho biết nguồn cung hiện đang tăng, giảm hay ổn định.</td></tr>
+</tbody></table>
+<h3>3.2. Nhu cầu</h3>
+<table><thead><tr><th>Chỉ số</th><th>Định nghĩa</th><th>So sánh</th><th>Cách diễn giải cho khách hàng</th></tr></thead><tbody>
+<tr><td><strong>Lượt xem tin</strong></td><td>Tổng lượt xem tin của các tin bất động sản trong khu vực. <br><span class="small">(Lấy từ dữ liệu lượt xem tin/pageview của các tin BĐS theo phường/xã trong tháng)</span></td><td>So với tháng trước đó.</td><td>Cho biết mức độ quan tâm xem tin đang tăng hay giảm.</td></tr>
+<tr><td><strong>Số tin đăng có tương tác từ người xem</strong></td><td>Số lượng tin có phát sinh lượt gọi liên hệ từ người xem. <br><span class="small">(Lấy từ dữ liệu tin BĐS có phát sinh hành động gọi liên hệ/contact_call theo phường/xã trong tháng)</span></td><td>So với tháng trước đó.</td><td>Cho biết có nhiều hay ít tin nhận được tín hiệu liên hệ thực tế hơn tháng trước.</td></tr>
+</tbody></table>
+</section>
+<section class="section" id="logic">
+<h2>4. Logic chuyển data thành nhận định</h2>
+<p>Hệ thống không chỉ hiển thị số liệu, mà cần chuyển số liệu thành các nhận định dễ hiểu. Các nhận định này sẽ được đưa vào cuối trang để khách hàng bấm ✅ nếu đồng tình hoặc ❌ nếu không đồng tình.</p>
+<h3>4.1. Quy tắc xác định tăng/giảm</h3>
+<table>
+<thead>
+<tr>
+<th>Trường hợp</th>
+<th>Cách xác định</th>
+<th>Cách ghi nhận trên trang</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tăng</td>
+<td>Chỉ số tháng hiện tại lớn hơn tháng trước.</td>
+<td>Ghi nhận là tăng so với tháng trước.</td>
+</tr>
+<tr>
+<td>Giảm</td>
+<td>Chỉ số tháng hiện tại nhỏ hơn tháng trước.</td>
+<td>Ghi nhận là giảm so với tháng trước.</td>
+</tr>
+<tr>
+<td>Ổn định</td>
+<td>Chỉ số tháng hiện tại bằng hoặc gần như không thay đổi so với tháng trước.</td>
+<td>Ghi nhận là ổn định so với tháng trước.</td>
+</tr>
+</tbody>
+</table>
+<div class="info">
+<strong>Nguyên tắc:</strong> Không cần chia quá nhiều mức như tăng mạnh, tăng nhẹ, giảm mạnh, giảm nhẹ trong MVP. 
+      Chỉ cần xác định tăng, giảm hoặc ổn định để hệ thống tự sinh nhận định đơn giản, dễ hiểu cho khách hàng.
+    </div>
+<h3>4.2. Template tạo điểm đáng chú ý tự động</h3>
+<table>
+<thead>
+<tr>
+<th>Tình huống dữ liệu</th>
+<th>Logic xác định</th>
+<th>Template tạo điểm đáng chú ý</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Nguồn cung tăng</td>
+<td>Người đăng tin tăng hoặc số tin mới + tin cũ còn dịch vụ tăng so với tháng trước.</td>
+<td>Nguồn cung [loại hình/tổng BĐS] tại [phường/xã] trong tháng [tháng] đang tăng so với tháng trước.</td>
+</tr>
+<tr>
+<td>Nguồn cung giảm</td>
+<td>Người đăng tin giảm hoặc số tin mới + tin cũ còn dịch vụ giảm so với tháng trước.</td>
+<td>Nguồn cung [loại hình/tổng BĐS] tại [phường/xã] trong tháng [tháng] đang giảm so với tháng trước.</td>
+</tr>
+<tr>
+<td>Nguồn cung ổn định</td>
+<td>Người đăng tin và số tin mới + tin cũ còn dịch vụ gần như không thay đổi so với tháng trước.</td>
+<td>Nguồn cung [loại hình/tổng BĐS] tại [phường/xã] trong tháng [tháng] gần như ổn định so với tháng trước.</td>
+</tr>
+<tr>
+<td>Nhu cầu tăng</td>
+<td>Lượt xem tin tăng hoặc số tin có lượt gọi liên hệ tăng so với tháng trước.</td>
+<td>Nhu cầu [loại hình/tổng BĐS] tại [phường/xã] trong tháng [tháng] đang tăng so với tháng trước.</td>
+</tr>
+<tr>
+<td>Nhu cầu giảm</td>
+<td>Lượt xem tin giảm hoặc số tin có lượt gọi liên hệ giảm so với tháng trước.</td>
+<td>Nhu cầu [loại hình/tổng BĐS] tại [phường/xã] trong tháng [tháng] đang giảm so với tháng trước.</td>
+</tr>
+<tr>
+<td>Nhu cầu ổn định</td>
+<td>Lượt xem tin và số tin có lượt gọi liên hệ gần như không thay đổi so với tháng trước.</td>
+<td>Nhu cầu [loại hình/tổng BĐS] tại [phường/xã] trong tháng [tháng] gần như ổn định so với tháng trước.</td>
+</tr>
+<tr>
+<td>Cạnh tranh cao hơn</td>
+<td>Nguồn cung tăng nhưng nhu cầu giảm hoặc không tăng tương ứng.</td>
+<td>[Loại hình/tổng BĐS] tại [phường/xã] trong tháng [tháng] đang có mức độ cạnh tranh cao hơn tháng trước.</td>
+</tr>
+<tr>
+<td>Có dấu hiệu khan nguồn cung</td>
+<td>Nguồn cung giảm nhưng nhu cầu tăng hoặc vẫn ổn định.</td>
+<td>[Loại hình/tổng BĐS] tại [phường/xã] trong tháng [tháng] có dấu hiệu khan nguồn cung hơn so với tháng trước.</td>
+</tr>
+</tbody>
+</table>
+<h4>Ví dụ điểm đáng chú ý sau khi thay dữ liệu</h4>
+<table>
+<thead>
+<tr>
+<th>Loại hình</th>
+<th>Tình huống dữ liệu</th>
+<th>Câu hiển thị</th>
+<th>Phản hồi</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Nhà mặt tiền</td>
+<td>Nguồn cung tăng</td>
+<td>Nguồn cung nhà mặt tiền tại phường Sài Gòn trong tháng 7 đang tăng so với tháng trước.</td>
+<td>✅ Đồng tình / ❌ Không đồng tình</td>
+</tr>
+<tr>
+<td>Phòng trọ</td>
+<td>Nhu cầu giảm</td>
+<td>Nhu cầu phòng trọ tại phường Sài Gòn trong tháng 7 đang giảm so với tháng trước.</td>
+<td>✅ Đồng tình / ❌ Không đồng tình</td>
+</tr>
+<tr>
+<td>Căn hộ chung cư</td>
+<td>Nguồn cung tăng, nhu cầu giảm</td>
+<td>Căn hộ chung cư tại phường Sài Gòn trong tháng 7 đang có mức độ cạnh tranh cao hơn tháng trước.</td>
+<td>✅ Đồng tình / ❌ Không đồng tình</td>
+</tr>
+<tr>
+<td>Nhà riêng cho thuê</td>
+<td>Nguồn cung giảm, nhu cầu tăng</td>
+<td>Nhà riêng cho thuê tại phường Sài Gòn trong tháng 7 có dấu hiệu khan nguồn cung hơn so với tháng trước.</td>
+<td>✅ Đồng tình / ❌ Không đồng tình</td>
+</tr>
+</tbody>
+</table>
+<section class="section" id="page-structure">
+<h2>5. Cấu trúc trang tính năng</h2>
+<h3>Mockup cấu trúc trang</h3>
+<div class="mock-page"><div class="mock-topbar"><div>Muaban.net | Cung cầu BĐS theo khu vực</div><div>Phường Sài Gòn · Tháng 7/2026</div></div><div class="mock-content">
+<div class="mock-hero"><h3>Thị trường BĐS phường Sài Gòn tháng 7/2026</h3><p><strong>Nhận định nhanh:</strong> Nguồn cung đang tăng, trong khi nhu cầu liên hệ chưa tăng tương ứng. Người đăng tin có thể gặp mức độ cạnh tranh cao hơn tháng trước.</p><span class="pill pill-yellow">Thị trường cạnh tranh cao</span></div>
+<h4>1. Nguồn cung</h4><div class="grid-2"><div class="metric-card"><div class="label">Số người đăng tin trong khu vực</div><div class="value">128</div><div class="trend-up">▲ Tăng 14% so với tháng trước</div></div><div class="metric-card"><div class="label">Tin mới + tin cũ còn dịch vụ</div><div class="value">462</div><div class="trend-up">▲ Tăng 21% so với tháng trước</div></div></div>
+<div class="chart-card">
+<div class="chart-header">
+<div>
+<div class="chart-title">Biểu đồ lịch sử nguồn cung</div>
+<div class="chart-subtitle">Theo dõi số người đăng tin và số tin mới + tin cũ còn dịch vụ trong 6 tháng gần nhất.</div>
+</div>
+<div class="chart-legend">
+<span class="legend-item"><span class="legend-dot legend-supply-1"></span>Người đăng tin</span>
+<span class="legend-item"><span class="legend-dot legend-supply-2"></span>Tin đang hiển thị</span>
+</div>
+</div>
+<svg aria-label="Biểu đồ lịch sử nguồn cung" class="line-chart-svg" role="img" viewbox="0 0 720 240">
+<line class="chart-grid-line" x1="60" x2="690" y1="40" y2="40"></line>
+<line class="chart-grid-line" x1="60" x2="690" y1="90" y2="90"></line>
+<line class="chart-grid-line" x1="60" x2="690" y1="140" y2="140"></line>
+<line class="chart-grid-line" x1="60" x2="690" y1="190" y2="190"></line>
+<text class="chart-axis-text" x="36" y="44">Cao</text>
+<text class="chart-axis-text" x="30" y="194">Thấp</text>
+<text class="chart-axis-text" x="62" y="220">T2</text>
+<text class="chart-axis-text" x="178" y="220">T3</text>
+<text class="chart-axis-text" x="294" y="220">T4</text>
+<text class="chart-axis-text" x="410" y="220">T5</text>
+<text class="chart-axis-text" x="526" y="220">T6</text>
+<text class="chart-axis-text" x="642" y="220">T7</text>
+<path class="chart-line" d="M70 160 L186 148 L302 132 L418 120 L534 105 L650 88" stroke="#0f766e"></path>
+<path class="chart-line" d="M70 172 L186 160 L302 150 L418 132 L534 108 L650 76" stroke="#2563eb"></path>
+<circle class="chart-point" cx="70" cy="160" fill="#0f766e" r="5"></circle>
+<circle class="chart-point" cx="186" cy="148" fill="#0f766e" r="5"></circle>
+<circle class="chart-point" cx="302" cy="132" fill="#0f766e" r="5"></circle>
+<circle class="chart-point" cx="418" cy="120" fill="#0f766e" r="5"></circle>
+<circle class="chart-point" cx="534" cy="105" fill="#0f766e" r="5"></circle>
+<circle class="chart-point" cx="650" cy="88" fill="#0f766e" r="5"></circle>
+<circle class="chart-point" cx="70" cy="172" fill="#2563eb" r="5"></circle>
+<circle class="chart-point" cx="186" cy="160" fill="#2563eb" r="5"></circle>
+<circle class="chart-point" cx="302" cy="150" fill="#2563eb" r="5"></circle>
+<circle class="chart-point" cx="418" cy="132" fill="#2563eb" r="5"></circle>
+<circle class="chart-point" cx="534" cy="108" fill="#2563eb" r="5"></circle>
+<circle class="chart-point" cx="650" cy="76" fill="#2563eb" r="5"></circle>
+</svg>
+</div>
+<h4>2. Nhu cầu</h4><div class="grid-2"><div class="metric-card"><div class="label">Lượt xem tin</div><div class="value">18.420</div><div class="trend-down">▼ Giảm 8% so với tháng trước</div></div><div class="metric-card"><div class="label">Tin có tương tác gọi</div><div class="value">96</div><div class="trend-down">▼ Giảm 12% so với tháng trước</div></div></div>
+<div class="chart-card">
+<div class="chart-header">
+<div>
+<div class="chart-title">Biểu đồ lịch sử nhu cầu</div>
+<div class="chart-subtitle">Theo dõi lượt xem tin và số tin có lượt gọi liên hệ trong 6 tháng gần nhất.</div>
+</div>
+<div class="chart-legend">
+<span class="legend-item"><span class="legend-dot legend-demand-1"></span>Lượt xem tin</span>
+<span class="legend-item"><span class="legend-dot legend-demand-2"></span>Tin có lượt gọi liên hệ</span>
+</div>
+</div>
+<svg aria-label="Biểu đồ lịch sử nhu cầu" class="line-chart-svg" role="img" viewbox="0 0 720 240">
+<line class="chart-grid-line" x1="60" x2="690" y1="40" y2="40"></line>
+<line class="chart-grid-line" x1="60" x2="690" y1="90" y2="90"></line>
+<line class="chart-grid-line" x1="60" x2="690" y1="140" y2="140"></line>
+<line class="chart-grid-line" x1="60" x2="690" y1="190" y2="190"></line>
+<text class="chart-axis-text" x="36" y="44">Cao</text>
+<text class="chart-axis-text" x="30" y="194">Thấp</text>
+<text class="chart-axis-text" x="62" y="220">T2</text>
+<text class="chart-axis-text" x="178" y="220">T3</text>
+<text class="chart-axis-text" x="294" y="220">T4</text>
+<text class="chart-axis-text" x="410" y="220">T5</text>
+<text class="chart-axis-text" x="526" y="220">T6</text>
+<text class="chart-axis-text" x="642" y="220">T7</text>
+<path class="chart-line" d="M70 80 L186 92 L302 76 L418 98 L534 112 L650 126" stroke="#7c3aed"></path>
+<path class="chart-line" d="M70 96 L186 104 L302 90 L418 108 L534 122 L650 142" stroke="#ea580c"></path>
+<circle class="chart-point" cx="70" cy="80" fill="#7c3aed" r="5"></circle>
+<circle class="chart-point" cx="186" cy="92" fill="#7c3aed" r="5"></circle>
+<circle class="chart-point" cx="302" cy="76" fill="#7c3aed" r="5"></circle>
+<circle class="chart-point" cx="418" cy="98" fill="#7c3aed" r="5"></circle>
+<circle class="chart-point" cx="534" cy="112" fill="#7c3aed" r="5"></circle>
+<circle class="chart-point" cx="650" cy="126" fill="#7c3aed" r="5"></circle>
+<circle class="chart-point" cx="70" cy="96" fill="#ea580c" r="5"></circle>
+<circle class="chart-point" cx="186" cy="104" fill="#ea580c" r="5"></circle>
+<circle class="chart-point" cx="302" cy="90" fill="#ea580c" r="5"></circle>
+<circle class="chart-point" cx="418" cy="108" fill="#ea580c" r="5"></circle>
+<circle class="chart-point" cx="534" cy="122" fill="#ea580c" r="5"></circle>
+<circle class="chart-point" cx="650" cy="142" fill="#ea580c" r="5"></circle>
+</svg>
+</div>
+<h4>3. Tình hình cung cầu theo loại hình bất động sản</h4>
+<p class="small">
+        Đây là bảng số liệu minh họa trong mockup. Khi triển khai thật, hệ thống sẽ lấy dữ liệu theo từng phường/xã, từng tháng và từng loại hình BĐS. 
+        Phần này chỉ hiển thị số liệu, không cần nhận định riêng cho từng dòng. Nhận định sẽ được tổng hợp ở phần cuối bằng các điểm đáng chú ý của thị trường.
+      </p>
+<h4>3.1. Nhóm mua bán</h4>
+<table>
+<thead>
+<tr>
+<th>Loại hình mua bán</th>
+<th>Người đăng tin</th>
+<th>Tin mới + tin cũ còn dịch vụ</th>
+<th>Lượt xem tin</th>
+<th>Tin có lượt gọi</th>
+
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Nhà riêng</td>
+<td>42 <br/><span class="pill pill-green">▲ +8%</span></td>
+<td>126 <br/><span class="pill pill-green">▲ +12%</span></td>
+<td>5.820 <br/><span class="pill pill-green">▲ +9%</span></td>
+<td>38 <br/><span class="pill pill-green">▲ +6%</span></td>
+
+</tr>
+<tr>
+<td>Nhà mặt tiền</td>
+<td>31 <br/><span class="pill pill-green">▲ +18%</span></td>
+<td>88 <br/><span class="pill pill-green">▲ +24%</span></td>
+<td>3.460 <br/><span class="pill pill-red">▼ -7%</span></td>
+<td>19 <br/><span class="pill pill-red">▼ -11%</span></td>
+
+</tr>
+<tr>
+<td>Đất</td>
+<td>22 <br/><span class="pill pill-red">▼ -6%</span></td>
+<td>57 <br/><span class="pill pill-red">▼ -9%</span></td>
+<td>2.140 <br/><span class="pill pill-yellow">▬ 0%</span></td>
+<td>14 <br/><span class="pill pill-yellow">▬ +2%</span></td>
+
+</tr>
+<tr>
+<td>Căn hộ chung cư</td>
+<td>36 <br/><span class="pill pill-green">▲ +15%</span></td>
+<td>112 <br/><span class="pill pill-green">▲ +21%</span></td>
+<td>4.980 <br/><span class="pill pill-red">▼ -5%</span></td>
+<td>25 <br/><span class="pill pill-red">▼ -8%</span></td>
+
+</tr>
+<tr>
+<td>Biệt thự / liền kề</td>
+<td>9 <br/><span class="pill pill-yellow">▬ +3%</span></td>
+<td>18 <br/><span class="pill pill-yellow">▬ +4%</span></td>
+<td>730 <br/><span class="pill pill-green">▲ +10%</span></td>
+<td>6 <br/><span class="pill pill-green">▲ +12%</span></td>
+
+</tr>
+</tbody>
+</table>
+<h4>3.2. Nhóm cho thuê</h4>
+<table>
+<thead>
+<tr>
+<th>Loại hình cho thuê</th>
+<th>Người đăng tin</th>
+<th>Tin mới + tin cũ còn dịch vụ</th>
+<th>Lượt xem tin</th>
+<th>Tin có lượt gọi</th>
+
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Phòng trọ</td>
+<td>28 <br/><span class="pill pill-yellow">▬ +2%</span></td>
+<td>94 <br/><span class="pill pill-yellow">▬ +1%</span></td>
+<td>6.210 <br/><span class="pill pill-red">▼ -22%</span></td>
+<td>21 <br/><span class="pill pill-red">▼ -18%</span></td>
+
+</tr>
+<tr>
+<td>Căn hộ cho thuê</td>
+<td>34 <br/><span class="pill pill-green">▲ +11%</span></td>
+<td>118 <br/><span class="pill pill-green">▲ +16%</span></td>
+<td>7.430 <br/><span class="pill pill-green">▲ +13%</span></td>
+<td>44 <br/><span class="pill pill-green">▲ +15%</span></td>
+
+</tr>
+<tr>
+<td>Nhà riêng cho thuê</td>
+<td>21 <br/><span class="pill pill-red">▼ -5%</span></td>
+<td>63 <br/><span class="pill pill-red">▼ -7%</span></td>
+<td>3.120 <br/><span class="pill pill-green">▲ +8%</span></td>
+<td>18 <br/><span class="pill pill-green">▲ +10%</span></td>
+
+</tr>
+<tr>
+<td>Nhà mặt tiền cho thuê</td>
+<td>16 <br/><span class="pill pill-green">▲ +9%</span></td>
+<td>41 <br/><span class="pill pill-green">▲ +14%</span></td>
+<td>1.860 <br/><span class="pill pill-red">▼ -6%</span></td>
+<td>9 <br/><span class="pill pill-red">▼ -10%</span></td>
+
+</tr>
+<tr>
+<td>Mặt bằng / văn phòng</td>
+<td>12 <br/><span class="pill pill-yellow">▬ +4%</span></td>
+<td>35 <br/><span class="pill pill-green">▲ +8%</span></td>
+<td>1.420 <br/><span class="pill pill-yellow">▬ -2%</span></td>
+<td>7 <br/><span class="pill pill-yellow">▬ 0%</span></td>
+
+</tr>
+</tbody>
+</table>
+<div class="info">
+<strong>Lưu ý hiển thị:</strong> Các loại hình trong bảng chỉ nên xuất hiện khi đạt ngưỡng dữ liệu tối thiểu. Nếu một loại hình có quá ít người đăng tin, quá ít tin hoặc gần như không có lượt gọi liên hệ, hệ thống nên ẩn loại hình đó hoặc gộp vào nhóm “Khác” để tránh đưa ra nhận định sai.
+      </div>
+<h4>4. Điểm đáng chú ý của thị trường &amp; phản hồi của khách hàng</h4>
+<p class="small">
+        Hệ thống chỉ chọn các điểm đáng chú ý nhất của thị trường để hiển thị thành card phản hồi, không nhận định riêng cho từng dòng số liệu.
+      </p>
+<div class="feedback-list">
+<div class="feedback-card">
+<div class="feedback-card-title">Nguồn cung nhà mặt tiền tại phường Sài Gòn trong tháng 7 đang tăng so với tháng trước.</div>
+<div class="feedback-actions">
+<button class="feedback-btn feedback-btn-agree" type="button"><span class="icon">✅</span> Đồng tình</button>
+<button class="feedback-btn feedback-btn-disagree" type="button"><span class="icon">❌</span> Không đồng tình</button>
+</div>
+<div class="feedback-hint">Phản hồi của bạn giúp Muaban.net đánh giá thị trường khu vực chính xác hơn.</div>
+</div>
+<div class="feedback-card">
+<div class="feedback-card-title">Nhu cầu phòng trọ tại phường Sài Gòn trong tháng 7 đang giảm so với tháng trước.</div>
+<div class="feedback-actions">
+<button class="feedback-btn feedback-btn-agree" type="button"><span class="icon">✅</span> Đồng tình</button>
+<button class="feedback-btn feedback-btn-disagree" type="button"><span class="icon">❌</span> Không đồng tình</button>
+</div>
+<div class="feedback-hint">Bạn có thể xác nhận nhận định này theo trải nghiệm thực tế của mình.</div>
+</div>
+<div class="feedback-card">
+<div class="feedback-card-title">Căn hộ chung cư tại phường Sài Gòn trong tháng 7 đang có mức độ cạnh tranh cao hơn tháng trước.</div>
+<div class="feedback-actions">
+<button class="feedback-btn feedback-btn-agree" type="button"><span class="icon">✅</span> Đồng tình</button>
+<button class="feedback-btn feedback-btn-disagree" type="button"><span class="icon">❌</span> Không đồng tình</button>
+</div>
+<div class="feedback-hint">Kết quả phản hồi sẽ được dùng để cải thiện nhận định trong email tháng sau.</div>
+</div>
+<div class="feedback-card">
+<div class="feedback-card-title">Nhà riêng cho thuê tại phường Sài Gòn trong tháng 7 có dấu hiệu khan nguồn cung hơn so với tháng trước.</div>
+<div class="feedback-actions">
+<button class="feedback-btn feedback-btn-agree" type="button"><span class="icon">✅</span> Đồng tình</button>
+<button class="feedback-btn feedback-btn-disagree" type="button"><span class="icon">❌</span> Không đồng tình</button>
+</div>
+<div class="feedback-hint">Mỗi nhận định chỉ cần một phản hồi nhanh: đồng tình hoặc không đồng tình.</div>
+</div>
+</div>
+<h4>5. CTA cuối trang</h4>
+<div class="vote-actions"><span class="btn btn-primary">Xem tin BĐS phường Sài Gòn</span><span class="btn">Đăng tin tại khu vực này</span><span class="btn">Nhận cập nhật tháng sau</span></div>
+</div></div>
+</section>
+<footer class="footer">Revised Feature Plan - Supply &amp; Demand Intelligence | Muaban.net</footer>
+</section></main>
+</body>
+</html>
